@@ -22,7 +22,7 @@ Example Playbook
   roles:
     - role: gitlab
       vars:
-        gitlab_version:
+        gitlab_version: 14.7.0
         gitlab_domain: git.example.com
         gitlab_configuration:
           - gitlab_rails:
