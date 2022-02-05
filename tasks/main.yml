@@ -1,0 +1,55 @@
+---
+- name: Read vars for OS family
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Check existence of repo file
+  stat:
+    path: "{{ gitlab_repo_file_path }}"
+  register: gitlab_repo_file
+
+- name: Check existence of GitLab executable
+  stat:
+    path: /bin/gitlab-ctl
+  register: gitlab_executable
+
+- block:
+  - name: Download repository installation script
+    get_url:
+      url: https://packages.gitlab.com/install/repositories/gitlab/{{ gitlab_edition }}/script.{{ gitlab_repo_type }}.sh
+      dest: /tmp/gitlab_repo_script.sh
+
+  - name: Install GitLab repository
+    command: bash /tmp/gitlab_repo_script.sh
+  when: not gitlab_repo_file.stat.exists
+
+- name: Install GitLab
+  package:
+    name: "{{ gitlab_edition }}{{ gitlab_pkg_sep ~ gitlab_version if gitlab_version | length > 0 }}"
+    state: present
+  async: 600
+  poll: 5
+
+# This randomly fails sometimes.
+# Running again after copying the config file seems to fix things.
+- name: Run initial configuration
+  command:
+    cmd: gitlab-ctl reconfigure
+    creates: /var/opt/gitlab/bootstrapped
+  environment:
+    GITLAB_ROOT_PASSWORD: "{{ gitlab_initial_root_password }}"
+  failed_when: false
+
+# Runs only on initial install because Rails console is slow.
+# ref: https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/2837#note_621336170
+- name: Disable signup for new users
+  command: "gitlab-rails runner 'ApplicationSetting.last.update(signup_enabled: false)'"
+  when: not gitlab_signup_enabled and not gitlab_executable.stat.exists
+
+- name: Copy configuration file
+  template:
+    src: gitlab.rb.j2
+    dest: /etc/gitlab/gitlab.rb
+    owner: root
+    group: root
+    mode: 0600
+  notify: reconfigure gitlab

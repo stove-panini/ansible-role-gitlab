@@ -1,0 +1,3 @@
+gitlab_repo_file_path: /etc/yum.repos.d/gitlab_{{ gitlab_edition }}.repo
+gitlab_repo_type: rpm
+gitlab_pkg_sep: "-"

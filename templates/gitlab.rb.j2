@@ -1,0 +1,17 @@
+{{ ansible_managed | comment }}
+
+external_url 'https://{{ gitlab_domain }}'
+
+{% for i in gitlab_configuration %}
+{% for section, options in i.items() %}
+{% for k, v in options.items() %}
+{% if v is string and '\n' not in v %}
+{{ section }}['{{ k }}'] = '{{ v }}'
+{% elif v is boolean %}
+{{ section }}['{{ k }}'] = {{ v | lower }}
+{% else %}
+{{ section }}['{{ k }}'] = {{ v }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}

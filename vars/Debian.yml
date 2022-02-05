@@ -1,0 +1,3 @@
+gitlab_repo_file_path: /etc/apt/sources.list.d/gitlab_{{ gitlab_edition }}.list
+gitlab_repo_type: deb
+gitlab_pkg_sep: "="
