@@ -9,4 +9,4 @@ gitlab_signup_enabled: false
 
 # Free-form. See the official config template for configuration options
 # https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/files/gitlab-config-template/gitlab.rb.template
-gitlab_configuration: ""
+gitlab_configuration: []

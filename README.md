@@ -11,7 +11,7 @@ gitlab\_edition | `gitlab-ce` |
 gitlab\_initial\_root\_password | `changeme123` |
 gitlab\_domain | `{{ ansible_fqdn }}` |
 gitlab\_signup\_enabled | `false` |
-gitlab\_configuration | `""` |
+gitlab\_configuration | `[]` |
 
 The gitlab\_configuration variable is free-form. Its structure will become the contents of /etc/gitlab.rb. See the official [config template](https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/files/gitlab-config-template/gitlab.rb.template) for configuration options.
 
@@ -22,6 +22,7 @@ Example Playbook
   roles:
     - role: gitlab
       vars:
+        gitlab_version:
         gitlab_domain: git.example.com
         gitlab_configuration:
           - gitlab_rails:
