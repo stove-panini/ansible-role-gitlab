@@ -45,11 +45,32 @@
   command: "gitlab-rails runner 'ApplicationSetting.last.update(signup_enabled: false)'"
   when: not gitlab_signup_enabled and not gitlab_executable.stat.exists
 
-- name: Copy configuration file
+- name: Copy configuration file provided by role
   template:
     src: gitlab.rb.j2
     dest: /etc/gitlab/gitlab.rb
     owner: root
     group: root
     mode: 0600
+  when: gitlab_configuration | length > 0
+  notify: reconfigure gitlab
+
+- name: Copy user-provided configuration file
+  copy:
+    src: "{{ gitlab_config_file }}"
+    dest: /etc/gitlab/gitlab.rb
+    owner: root
+    group: root
+    mode: 0600
+  when: gitlab_config_file_path is defined
+  notify: reconfigure gitlab
+
+- name: Copy user-provided configuration template
+  template:
+    src: "{{ gitlab_config_file }}"
+    dest: /etc/gitlab/gitlab.rb
+    owner: root
+    group: root
+    mode: 0600
+  when: gitlab_config_template_path is defined
   notify: reconfigure gitlab

@@ -10,3 +10,7 @@ gitlab_signup_enabled: false
 # Free-form. See the official config template for configuration options
 # https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/files/gitlab-config-template/gitlab.rb.template
 gitlab_configuration: []
+
+# Or provide your own config
+#gitlab_config_file_path: "{{ playbook_dir }}/files/{{ inventory_hostname }}/gitlab.rb
+#gitlab_config_template_path: "{{ playbook_dir }}/files/{{ inventory_hostname }}/gitlab.rb.j2

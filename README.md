@@ -12,8 +12,12 @@ gitlab\_initial\_root\_password | `changeme123` |
 gitlab\_domain | `{{ ansible_fqdn }}` |
 gitlab\_signup\_enabled | `false` |
 gitlab\_configuration | `[]` |
+gitlab\_config\_file\_path | `unset` |
+gitlab\_config\_template\_path | `unset` |
 
 The gitlab\_configuration variable is free-form. Its structure will become the contents of /etc/gitlab.rb. See the official [config template](https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/files/gitlab-config-template/gitlab.rb.template) for configuration options.
+
+Alternately you may supply your own config file or template by using either gitlab\_config\_file\_path or gitlab\_config\_template\_path.
 
 Example Playbook
 ----------------
