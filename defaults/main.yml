@@ -2,9 +2,17 @@
 # By default, we just ensure that gitlab is installed.
 # You may want to set this to something like "14.6.2", etc.
 gitlab_version: ""
+
 gitlab_edition: gitlab-ce
+
 gitlab_initial_root_password: changeme123
+
 gitlab_domain: "{{ ansible_fqdn }}"
+
+# If serving from the main domain, append the port.
+# e.g. "{{ gitlab_domain }}:5050"
+gitlab_registry_domain: registry.{{ gitlab_domain }}
+
 gitlab_signup_enabled: false
 
 # Free-form. See the official config template for configuration options

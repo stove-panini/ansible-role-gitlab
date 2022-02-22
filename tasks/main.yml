@@ -39,12 +39,6 @@
     GITLAB_ROOT_PASSWORD: "{{ gitlab_initial_root_password }}"
   failed_when: false
 
-# Runs only on initial install because Rails console is slow.
-# ref: https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/2837#note_621336170
-- name: Disable signup for new users
-  command: "gitlab-rails runner 'ApplicationSetting.last.update(signup_enabled: false)'"
-  when: not gitlab_signup_enabled and not gitlab_executable.stat.exists
-
 - name: Copy configuration file provided by role
   template:
     src: gitlab.rb.j2

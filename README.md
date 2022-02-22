@@ -10,7 +10,6 @@ gitlab\_version | `""` |
 gitlab\_edition | `gitlab-ce` |
 gitlab\_initial\_root\_password | `changeme123` |
 gitlab\_domain | `{{ ansible_fqdn }}` |
-gitlab\_signup\_enabled | `false` |
 gitlab\_configuration | `[]` |
 gitlab\_config\_file\_path | `unset` |
 gitlab\_config\_template\_path | `unset` |
